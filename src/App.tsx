@@ -44,6 +44,7 @@ const App = () => {
     if (selectedPlayer) {
       setTeamOnePlayers([...teamOnePlayers, selectedPlayer]);
       setTeamTwoPlayers(teamTwoPlayers.filter((player) => player !== selectedPlayer));
+      setRemovedPlayers(removedPlayers.filter((player) => player !== selectedPlayer));
       setSelectedPlayer('');
     }
   };
@@ -52,6 +53,7 @@ const App = () => {
     if (selectedPlayer) {
       setTeamTwoPlayers([...teamTwoPlayers, selectedPlayer]);
       setTeamOnePlayers(teamOnePlayers.filter((player) => player !== selectedPlayer));
+      setRemovedPlayers(removedPlayers.filter((player) => player !== selectedPlayer));
       setSelectedPlayer('');
     }
   };
@@ -59,16 +61,32 @@ const App = () => {
   const handleRemoveSelectedPlayers = () => {
     if (selectedPlayer) {
       setRemovedPlayers([...removedPlayers, selectedPlayer]);
+
+      setTeamOnePlayers(teamOnePlayers.filter((player) => player !== selectedPlayer));
+      setTeamTwoPlayers(teamTwoPlayers.filter((player) => player !== selectedPlayer));
+
       setSelectedPlayer('');
     }
   };
+
+  const handleRevivePlayer = (player: string) => {
+    setRemovedPlayers(removedPlayers.filter((removedPlayer) => removedPlayer !== player));
+
+    if (teamOnePlayers.includes(player)) {
+      setTeamOnePlayers([...teamOnePlayers, player]);
+    } else if (teamTwoPlayers.includes(player)) {
+      setTeamTwoPlayers([...teamTwoPlayers, player]);
+    }
+
+    setSelectedPlayer('');
+  };
+
 
   return (
     <>
       <div className='p-3'>
         <div>
           <h2>VIEW 1</h2>
-
           <div>
             <label>
               Seleccione un deporte:
@@ -103,7 +121,7 @@ const App = () => {
 
         <div>
           <h2>VIEW 2</h2>
-          <RemovedPlayerList removedPlayers={removedPlayers} />
+          <RemovedPlayerList removedPlayers={removedPlayers} onRevivePlayer={handleRevivePlayer} />
         </div>
       </div>
     </>
