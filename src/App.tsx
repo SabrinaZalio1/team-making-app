@@ -42,21 +42,28 @@ const App = () => {
 
   const handleTransferToOne = () => {
     if (selectedPlayer) {
+      if (removedPlayers.includes(selectedPlayer)) {
+        setRemovedPlayers(removedPlayers.filter((player) => player !== selectedPlayer));
+      }
+
       setTeamOnePlayers([...teamOnePlayers, selectedPlayer]);
       setTeamTwoPlayers(teamTwoPlayers.filter((player) => player !== selectedPlayer));
-      setRemovedPlayers(removedPlayers.filter((player) => player !== selectedPlayer));
       setSelectedPlayer('');
     }
   };
 
   const handleTransferToTwo = () => {
     if (selectedPlayer) {
+      if (removedPlayers.includes(selectedPlayer)) {
+        setRemovedPlayers(removedPlayers.filter((player) => player !== selectedPlayer));
+      }
+
       setTeamTwoPlayers([...teamTwoPlayers, selectedPlayer]);
       setTeamOnePlayers(teamOnePlayers.filter((player) => player !== selectedPlayer));
-      setRemovedPlayers(removedPlayers.filter((player) => player !== selectedPlayer));
       setSelectedPlayer('');
     }
   };
+
 
   const handleRemoveSelectedPlayers = () => {
     if (selectedPlayer) {
@@ -69,17 +76,12 @@ const App = () => {
     }
   };
 
-  const handleRevivePlayer = (player: string) => {
-    setRemovedPlayers(removedPlayers.filter((removedPlayer) => removedPlayer !== player));
-
-    if (teamOnePlayers.includes(player)) {
-      setTeamOnePlayers([...teamOnePlayers, player]);
-    } else if (teamTwoPlayers.includes(player)) {
-      setTeamTwoPlayers([...teamTwoPlayers, player]);
-    }
-
-    setSelectedPlayer('');
+  const handleReviveAllPlayers = () => {
+    setTeamOnePlayers([...teamOnePlayers, ...removedPlayers.filter(player => !teamTwoPlayers.includes(player))]);
+    setTeamTwoPlayers([...teamTwoPlayers, ...removedPlayers.filter(player => !teamOnePlayers.includes(player))]);
+    setRemovedPlayers([]);
   };
+
 
 
   return (
@@ -121,7 +123,7 @@ const App = () => {
 
         <div>
           <h2>VIEW 2</h2>
-          <RemovedPlayerList removedPlayers={removedPlayers} onRevivePlayer={handleRevivePlayer} />
+          <RemovedPlayerList removedPlayers={removedPlayers} onReviveAllPlayers={handleReviveAllPlayers} />
         </div>
       </div>
     </>

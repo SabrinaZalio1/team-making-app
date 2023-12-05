@@ -1,22 +1,22 @@
 import React from 'react';
 
-interface RemovedPlayerList {
+interface RemovedPlayerListProps {
   removedPlayers: string[];
-  onRevivePlayer: any;
+  onReviveAllPlayers: () => void;
 }
 
-const RemovedPlayerList = ({ removedPlayers, onRevivePlayer }: RemovedPlayerList) => {
+const RemovedPlayerList: React.FC<RemovedPlayerListProps> = ({ removedPlayers, onReviveAllPlayers }) => {
   return (
     <div className='section-container'>
       <h3>Removed Players</h3>
-      <ul>
+      <ul className='list-group'>
         {removedPlayers.map((player) => (
-          <li key={player}>
-            {player}
-            <button className='btn btn-success ml-2' onClick={() => onRevivePlayer(player)}>Revive</button>
-          </li>
+          <li className='list-group-item' key={player}>{player}</li>
         ))}
       </ul>
+      <button className='btn btn-success mt-2' onClick={onReviveAllPlayers}>
+        Revive All Players
+      </button>
     </div>
   );
 };
