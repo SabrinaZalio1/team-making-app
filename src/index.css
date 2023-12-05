@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+.section-container {
+  flex: 1;
+  padding: 20px;
+}
+
+.player-selected {
+  background-color: green;
+  color: white;
+  border: 1px solid rgb(3, 209, 3);
+}
+
+.player-item:hover {
+  background-color: rgba(0, 128, 0, 0.809);
+  color: white;
+  border: 1px solid rgb(3, 209, 3);
+}
+
+.player-item {
+  cursor: pointer;
+}
